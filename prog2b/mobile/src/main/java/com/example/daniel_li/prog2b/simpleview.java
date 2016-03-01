@@ -17,4 +17,10 @@ public class simpleview extends AppCompatActivity {
         Intent intent = getIntent();
     }
 
+    public void detailedView(View view)
+    {
+        Intent intent = new Intent(this, simple2activity.class);
+        startActivity(intent);
+    }
+
 }

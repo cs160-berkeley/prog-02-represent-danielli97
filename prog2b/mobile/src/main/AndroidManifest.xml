@@ -18,11 +18,11 @@
         </activity>
         <activity
             android:name=".simpleview"
-            android:label="@string/title_activity_simpleview"
+            android:label="Congressional View"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".simple2activity"
-            android:label="@string/title_activity_simple2activity"
+            android:label="Detailed View"
             android:theme="@style/AppTheme"></activity>
     </application>
 
