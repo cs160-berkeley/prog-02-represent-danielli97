@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.daniel_li.prog2b">
+
+    <application
+        android:allowBackup="true"
+        android:gravity="center"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Represent!"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".simpleview"
+            android:label="@string/title_activity_simpleview"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".simple2activity"
+            android:label="@string/title_activity_simple2activity"
+            android:theme="@style/AppTheme"></activity>
+    </application>
+
+</manifest>
