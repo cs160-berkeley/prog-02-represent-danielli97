@@ -19,9 +19,8 @@ public class TempActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Random rand=new Random();
-        int x = rand.nextInt(3);
-        //x = 0;
+        Random rand = new Random();//rand
+        int x = rand.nextInt(2);
         Log.d("T", String.valueOf(x));
         super.onCreate(savedInstanceState);
         if (getIntent().getExtras() == null) {

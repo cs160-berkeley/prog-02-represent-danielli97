@@ -40,9 +40,7 @@ public class MainActivity extends Activity implements WearableListView.ClickList
     }
 
     public void onClick(WearableListView.ViewHolder v) {
-        Integer tag = (Integer) v.itemView.getTag();
-        Intent sendIntent = new Intent(this, WatchToPhoneService.class);
-        startService(sendIntent);
+        WatchToPhoneService.sendMessage("/test", "Good job!", this);
         Intent intent = new Intent(this, DetailedView.class );
         startActivity(intent);
     }
