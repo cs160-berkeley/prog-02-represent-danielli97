@@ -12,8 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.wearable.Wearable;
+import com.squareup.seismic.ShakeDetector;
 
-public class MainActivity extends Activity implements WearableListView.ClickListener {
+public class MainActivity extends Activity implements WearableListView.ClickListener, ShakeDetector.Listener {
 
 
     private String[] s1 = {"Dianne Feinstein", "Dianne Feinstein", "Dianne Feinstein"};
@@ -40,11 +41,18 @@ public class MainActivity extends Activity implements WearableListView.ClickList
 
     public void onClick(WearableListView.ViewHolder v) {
         Integer tag = (Integer) v.itemView.getTag();
+        Intent sendIntent = new Intent(this, WatchToPhoneService.class);
+        startService(sendIntent);
         Intent intent = new Intent(this, DetailedView.class );
         startActivity(intent);
     }
     public void onTopEmptyRegionClick() {
 
+    }
+
+    public void hearShake() {
+        Intent intent = new Intent(this, LocationActivity.class );
+        startActivity(intent);
     }
 
     private static final class Adapter extends WearableListView.Adapter {

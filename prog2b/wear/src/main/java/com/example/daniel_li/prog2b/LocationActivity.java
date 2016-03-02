@@ -16,5 +16,9 @@ public class LocationActivity extends Activity {
         setContentView(R.layout.locationactivity);
 
     }
+    public void hearShake() {
+        Intent intent = new Intent(this, LocationActivity.class );
+        startActivity(intent);
+    }
 
 }

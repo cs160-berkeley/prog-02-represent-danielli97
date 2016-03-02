@@ -12,7 +12,10 @@ public class DetailedView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailedview);
-        Intent sendIntent = new Intent(this, WatchToPhoneService.class);
-        startService(sendIntent);
+
+    }
+    public void hearShake() {
+        Intent intent = new Intent(this, LocationActivity.class );
+        startActivity(intent);
     }
 }

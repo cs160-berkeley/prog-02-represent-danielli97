@@ -64,11 +64,11 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
                     @Override
                     public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
                         nodes = getConnectedNodesResult.getNodes();
-                        Log.d("T", "found nodes");
+                        Log.d("Potato", "found nodes");
                         //when we find a connected node, we populate the list declared above
                         //finally, we can send a message
                         sendMessage("/test", "Good job!");
-                        Log.d("T", "sent");
+                        Log.d("Potato", "sent");
                     }
                 });
     }

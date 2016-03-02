@@ -17,7 +17,10 @@ public class TempActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getIntent().getExtras().getString("1") != null){
+        if (getIntent().getExtras() == null) {
+
+        }
+        else if(getIntent().getExtras().getString("1") != null){
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("1", getIntent().getExtras().getString("1"));
             startActivity(intent);

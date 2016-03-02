@@ -23,10 +23,12 @@ public class PhoneListenerService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Log.d("Potato", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Intent sendIntent = new Intent(this, simple2activity.class);
+        sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(sendIntent);
         if( messageEvent.getPath().equalsIgnoreCase("/test") ) {
-            Intent sendIntent = new Intent(this, simple2activity.class);
-            startActivity(sendIntent);
+
         } else {
             super.onMessageReceived( messageEvent );
         }

@@ -17,6 +17,4 @@ public class simple2activity extends AppCompatActivity {
         Intent intent = getIntent();
 
     }
-
-
 }
