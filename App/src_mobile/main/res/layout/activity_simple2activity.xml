@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:textColor="#000000"
+    tools:context="com.example.daniel_li.myapplication.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:title="Congressional View"
+            android:showAsAction="always"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="10"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp">
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/d"
+                    android:src="@drawable/df"
+                    android:scaleType="fitXY"/>
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:paddingRight="16dp"
+                    android:paddingLeft="16dp"
+                    android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:visibility="visible">
+                    <LinearLayout
+                        android:layout_height="0dp"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3">
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="fill_parent"
+                                android:gravity="center_vertical"
+                                android:text="\n\n         Senator\n   Dianne Feinstein\n\n"
+                                android:textSize="20sp"
+                                android:textColor="#111"
+                                android:textIsSelectable="false"
+                                android:layout_marginBottom="4dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>        <android.support.v7.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="12dp">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:visibility="visible">
+                <LinearLayout
+                    android:layout_height="0dp"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3">
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:text="Party: Democrat - California\n\nEmail: www.feinstein.senate.gov/public/index.cfm/e-mail-me\n\nWebsite: http://www.feinstein.senate.gov/public/\n\nLast Tweet: Today we reflect on the contributions and leadership of U.S. presidents throughout our nation’s great history. Happy #PresidentsDay.\n\nEnd Date: 2016 (Pulled by API)\n\nCommittees: (Pulled by API)\n\nSponsored Bills: (Pulled by API)\n"
+                            android:textSize="12sp"
+                            android:textColor="#111"
+                            android:textIsSelectable="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</LinearLayout>
