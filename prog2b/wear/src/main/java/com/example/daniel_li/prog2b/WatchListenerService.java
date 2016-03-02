@@ -30,13 +30,14 @@ public class WatchListenerService extends WearableListenerService {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //you need to add this flag since you're starting a new activity from a service
             intent.putExtra("1", value);
-            Log.d("T", "about to start watch MainActivity with CAT_NAME: Fred");
+            //Log.d("T", "about to start watch MainActivity with CAT_NAME: Fred");
             startActivity(intent);
         } else if (messageEvent.getPath().equalsIgnoreCase("/location")) {
             String value = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             Intent intent = new Intent(this, TempActivity.class );
             intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
             //you need to add this flag since you're starting a new activity from a service
+
             intent.putExtra("2", value);
             Log.d("T", "about to start watch MainActivity with CAT_NAME: Lexy");
             startActivity(intent);

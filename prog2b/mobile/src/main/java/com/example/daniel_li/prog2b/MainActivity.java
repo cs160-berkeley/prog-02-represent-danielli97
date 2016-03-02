@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
     private void getZip()
     {
         //first set this to a test 94704
-        locatedZipCode.setText("94704");
+        locatedZipCode.setText("Random??");
     }
 
     public void zip(View view)
