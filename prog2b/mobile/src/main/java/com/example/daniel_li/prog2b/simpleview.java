@@ -15,6 +15,7 @@ public class simpleview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simpleview);
         Intent intent = getIntent();
+        setTitle("Congressional View");
     }
 
     public void detailedView(View view)
