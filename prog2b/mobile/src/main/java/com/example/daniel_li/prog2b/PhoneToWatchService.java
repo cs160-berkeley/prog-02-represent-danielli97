@@ -24,7 +24,7 @@ public class PhoneToWatchService extends Service {
         super.onCreate();
         //initialize the googleAPIClient for message passing
         mApiClient = new GoogleApiClient.Builder( this )
-                .addApiIfAvailable( Wearable.API )
+                .addApiIfAvailable(Wearable.API)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(Bundle connectionHint) {
@@ -47,8 +47,17 @@ public class PhoneToWatchService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Which cat do we want to feed? Grab this info from INTENT
         // which was passed over when we called startService
+        final String send;
+        final String value;
         Bundle extras = intent.getExtras();
-        final String zipCode = extras.getString("zip");
+        if(extras.getString("zip") != null){
+            send = "/zip";
+            value = extras.getString("zip");
+        } else {
+            send = "/location";
+            value = extras.getString("location");
+        }
+
 
         // Send the message with the cat name
         new Thread(new Runnable() {
@@ -57,7 +66,7 @@ public class PhoneToWatchService extends Service {
                 //first, connect to the apiclient
                 mApiClient.connect();
                 //now that you're connected, send a massage with the cat name
-                sendMessage("/zip", zipCode);
+                sendMessage(send, value);
             }
         }).start();
 

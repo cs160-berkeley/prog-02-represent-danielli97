@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void zip(View view)
     {
-        Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+        Intent sendIntent = new Intent(this, PhoneToWatchService.class);
         sendIntent.putExtra("zip", "94704");
         startService(sendIntent);
         Intent intent = new Intent(this, simpleview.class);
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity{
 
     public void getLocation(View view)
     {
+        Intent sendIntent = new Intent(this, PhoneToWatchService.class);
+        sendIntent.putExtra("location", "94704");
+        startService(sendIntent);
         Intent intent = new Intent(this, simpleview.class);
         startActivity(intent);
     }

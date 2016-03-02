@@ -18,12 +18,16 @@
         </activity>
         <activity
             android:name=".simpleview"
-            android:label="Congressional View"
-            android:theme="@style/AppTheme" />
+            android:label="Congressional View"/>
+            <!--android:theme="@style/AppTheme"-->
+
         <activity
             android:name=".simple2activity"
             android:label="Detailed View"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
+
         <service android:name=".PhoneToWatchService" />
         <!-- Listeners are special services that need to be declared like below, as BIND_LISTENER -->
         <service android:name=".PhoneListenerService"
