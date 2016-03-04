@@ -14,7 +14,9 @@ public class simpleview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simpleview);
-        //getSupportActionBar().setTitle("Congressional View");
+        Toolbar ab = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(ab);
+        getSupportActionBar().setTitle("Congressional View");
         Intent intent = getIntent();
         //getSupportActionBar().setTitle("Congressional View");
 

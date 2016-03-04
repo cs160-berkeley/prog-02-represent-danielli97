@@ -3,6 +3,10 @@ package com.example.daniel_li.prog2b;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
@@ -14,11 +18,12 @@ import android.widget.TextView;
 import com.google.android.gms.wearable.Wearable;
 import com.squareup.seismic.ShakeDetector;
 
-public class MainActivity extends Activity implements WearableListView.ClickListener, ShakeDetector.Listener {
+public class MainActivity extends Activity implements SensorEventListener, WearableListView.ClickListener, ShakeDetector.Listener {
 
 
     private String[] s1 = {"Dianne Feinstein", "Dianne Feinstein", "Dianne Feinstein"};
-
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +41,36 @@ public class MainActivity extends Activity implements WearableListView.ClickList
         Bundle extras = intent.getExtras();
 
         listView.setClickListener(this);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
     }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+    public void onSensorChanged(SensorEvent event) {
+        if (mAccelerometer != null) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            System.out.println(x + y + z);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
 
     public void onClick(WearableListView.ViewHolder v) {
         WatchToPhoneService.sendMessage("/test", "Good job!", this);

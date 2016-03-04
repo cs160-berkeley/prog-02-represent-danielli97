@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.squareup.seismic.ShakeDetector;
 
-public class LocationActivity extends Activity {
+
+public class LocationActivity extends Activity implements ShakeDetector.Listener{
 
 
     @Override
@@ -17,7 +19,7 @@ public class LocationActivity extends Activity {
 
     }
     public void hearShake() {
-        Intent intent = new Intent(this, LocationActivity.class );
+        Intent intent = new Intent(this, LocationActivity2.class );
         startActivity(intent);
     }
 

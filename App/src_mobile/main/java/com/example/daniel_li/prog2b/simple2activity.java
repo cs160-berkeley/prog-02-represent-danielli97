@@ -14,6 +14,9 @@ public class simple2activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple2activity);
+        Toolbar ab = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(ab);
+        getSupportActionBar().setTitle("Detailed View");
         Intent intent = getIntent();
 
     }

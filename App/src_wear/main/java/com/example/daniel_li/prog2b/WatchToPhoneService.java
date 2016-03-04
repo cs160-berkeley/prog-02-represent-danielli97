@@ -2,10 +2,12 @@ package com.example.daniel_li.prog2b;
 
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,34 +29,24 @@ import java.util.Set;
 /**
  * Created by joleary and noon on 2/19/16 at very late in the night. (early in the morning?)
  */
-public class WatchToPhoneService extends Service implements GoogleApiClient.ConnectionCallbacks {
+//extends service
+public class WatchToPhoneService implements GoogleApiClient.ConnectionCallbacks {
 
-    private GoogleApiClient mWatchApiClient;
-    private List<Node> nodes = new ArrayList<>();
+    private static GoogleApiClient mWatchApiClient;
+    private static String path;
+    private static String text;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        //initialize the googleAPIClient for message passing
-        mWatchApiClient = new GoogleApiClient.Builder( this )
+    public static void sendMessage(final String path, final String text, Context context ) {
+        WatchToPhoneService.path = path;
+        WatchToPhoneService.text = text;
+        mWatchApiClient = new GoogleApiClient.Builder(context)
                 .addApi( Wearable.API )
-                .addConnectionCallbacks(this)
+                .addConnectionCallbacks(new WatchToPhoneService())
                 .build();
         //and actually connect it
         mWatchApiClient.connect();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mWatchApiClient.disconnect();
-    }
-
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
     @Override //alternate method to connecting: no longer create this in a new thread, but as a callback
     public void onConnected(Bundle bundle) {
@@ -63,24 +55,22 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
                 .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
                     @Override
                     public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
-                        nodes = getConnectedNodesResult.getNodes();
+                        List<Node> nodes = getConnectedNodesResult.getNodes();
                         Log.d("Potato", "found nodes");
                         //when we find a connected node, we populate the list declared above
                         //finally, we can send a message
-                        sendMessage("/test", "Good job!");
+                        for (Node node : nodes) {
+                            Wearable.MessageApi.sendMessage(
+                                    mWatchApiClient, node.getId(), path, text.getBytes());
+                        }
                         Log.d("Potato", "sent");
+                        mWatchApiClient.disconnect();
                     }
                 });
     }
 
+
     @Override //we need this to implement GoogleApiClient.ConnectionsCallback
     public void onConnectionSuspended(int i) {}
-
-    private void sendMessage(final String path, final String text ) {
-        for (Node node : nodes) {
-            Wearable.MessageApi.sendMessage(
-                    mWatchApiClient, node.getId(), path, text.getBytes());
-        }
-    }
 
 }
