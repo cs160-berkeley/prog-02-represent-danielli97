@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -85,17 +84,17 @@
                 android:layout_height="0dp"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="Current Location:"
+                android:text="Current\n Location"
                 android:textSize="29sp" />
-            <TextView
-                android:id="@+id/currentlocation"
-                android:layout_height="0dp"
-                android:layout_width="fill_parent"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:text="Current Zipcode"
-                />
+            <!--<TextView-->
+                <!--android:id="@+id/currentlocation"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_weight="2"-->
+                <!--android:gravity="center"-->
+                <!--android:textSize="20sp"-->
+                <!--android:text="Current Zipcode"-->
+                <!--/>-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"

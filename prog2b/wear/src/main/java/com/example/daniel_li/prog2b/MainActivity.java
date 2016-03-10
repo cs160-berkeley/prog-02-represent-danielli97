@@ -18,12 +18,10 @@ import android.widget.TextView;
 import com.google.android.gms.wearable.Wearable;
 import com.squareup.seismic.ShakeDetector;
 
-public class MainActivity extends Activity implements SensorEventListener, WearableListView.ClickListener, ShakeDetector.Listener {
+public class MainActivity extends Activity implements WearableListView.ClickListener {
 
 
     private String[] s1 = {"Dianne Feinstein", "Dianne Feinstein", "Dianne Feinstein"};
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,34 +39,7 @@ public class MainActivity extends Activity implements SensorEventListener, Weara
         Bundle extras = intent.getExtras();
 
         listView.setClickListener(this);
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-    }
-
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-
-    public void onSensorChanged(SensorEvent event) {
-        if (mAccelerometer != null) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            System.out.println(x + y + z);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mSensorManager.unregisterListener(this);
     }
 
 
@@ -81,10 +52,6 @@ public class MainActivity extends Activity implements SensorEventListener, Weara
 
     }
 
-    public void hearShake() {
-        Intent intent = new Intent(this, LocationActivity.class );
-        startActivity(intent);
-    }
 
     private static final class Adapter extends WearableListView.Adapter {
         private String[] mDataset;
@@ -140,4 +107,12 @@ public class MainActivity extends Activity implements SensorEventListener, Weara
             return mDataset.length;
         }
     }
+    //map crap
+
+
+
+
+
+
+
 }

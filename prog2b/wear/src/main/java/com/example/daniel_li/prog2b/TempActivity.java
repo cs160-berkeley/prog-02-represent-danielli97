@@ -15,14 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
-public class TempActivity extends Activity implements SensorEventListener {
-
+public class TempActivity extends Activity {
+    //
+//    private SensorManager mSensorManager;
+//    private Sensor mAccelerometer;
     private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
 
+    private ShakeEventListener mSensorListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +35,13 @@ public class TempActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
 
 
-
         if (getIntent().getExtras() == null) {
 
-        }
-        else if(getIntent().getExtras().getString("1") != null){
+        } else if (getIntent().getExtras().getString("1") != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("1", getIntent().getExtras().getString("1"));
             startActivity(intent);
-        } else if (x == 0){
+        } else if (x == 0) {
             Intent intent = new Intent(this, LocationActivity2.class);
             intent.putExtra("2", getIntent().getExtras().getString("2"));
             startActivity(intent);
@@ -49,50 +50,38 @@ public class TempActivity extends Activity implements SensorEventListener {
             intent.putExtra("2", getIntent().getExtras().getString("2"));
             startActivity(intent);
         }
+
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorListener = new ShakeEventListener();
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+
+            public void onShake() {
+                //randomEvent2();
+            }
+        });
+
+
     }
 
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-
-    public void onSensorChanged(SensorEvent event) {
-        float previous = 0;
-        float current = 1;
-        boolean flag = true;
-        if (mAccelerometer != null) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            current = x + y + z;
-            if (current != previous) {
-                previous = current;
-                //intent goes here
-                System.out.println("current" + current);
-                System.out.println("previous" + previous);
-            }
-        }
-//        if (current == 6 && flag) {
-//
-//            Intent intent = new Intent(this, LocationActivity.class );
-//            startActivity(intent);
-//            flag = false;
-//            System.out.println("sent");
-//            System.out.println(flag);
-//        }
+    public void randomEvent2() {
+        WatchToPhoneService.sendMessage("", "", this);
+        Intent intent2 = new Intent(this, DetailedView.class );
+        startActivity(intent2);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
     protected void onPause() {
+        mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
-        mSensorManager.unregisterListener(this);
     }
-
 }
+

@@ -75,7 +75,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="fill_parent"
                                 android:gravity="center_vertical"
-                                android:text="Sen. Dianne Feinstein"
+                                android:text="@+id/sen1"
                                 android:textSize="20sp"
                                 android:textColor="#111"
                                 android:textIsSelectable="false"
@@ -104,15 +104,17 @@
                     </LinearLayout>
                     <LinearLayout
                         android:layout_height="match_parent"
-                        android:layout_width="fill_parent" >
+                        android:layout_width="fill_parent"
+                        android:orientation="horizontal">
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="fill_parent"
                             android:gravity="center_vertical"
-                            android:text="Party: D-CA \nEmail: feinstein.senate.gov/public/index.cfm/email-me \nWebsite: feinstein.senate.gov/public\nTweet: Today we reflect on the contributions and leadership of U.S. presidents throughout nation's great history. Happy #President's day"
+                            android:text="asdf"
                             android:textSize="10sp"
                             android:textColor="#111"
                             android:textIsSelectable="false"/>
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -158,7 +160,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="fill_parent"
                                 android:gravity="center_vertical"
-                                android:text="Sen. Dianne Feinstein"
+                                android:text="@+id/sen2"
                                 android:textSize="20sp"
                                 android:textColor="#111"
                                 android:textIsSelectable="false"
@@ -241,7 +243,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="fill_parent"
                                 android:gravity="center_vertical"
-                                android:text="Sen. Dianne Feinstein"
+                                android:text="@+id/rep1"
                                 android:textSize="20sp"
                                 android:textColor="#111"
                                 android:textIsSelectable="false"

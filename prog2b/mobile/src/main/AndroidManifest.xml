@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.daniel_li.prog2b">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:gravity="center"
@@ -9,6 +11,23 @@
         android:label="Represent!"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--mMAP STUFF-->
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCWOcL_5ECvhn98YzdAUeuwe6kGoZVjaJM"/>
+        <service
+            android:name=".FetchAddressIntentService"
+            android:exported="false"/>
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        <uses-permission android:name="android.permission.INTERNET" />
+
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +57,9 @@
         </service>
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="24b099ab1fdb7eacc78195fa298d8669110b8bfe" />
     </application>
 
 </manifest>

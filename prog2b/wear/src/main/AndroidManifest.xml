@@ -10,6 +10,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault" >
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCWOcL_5ECvhn98YzdAUeuwe6kGoZVjaJM"/>
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+
+
+
+
         <activity
             android:name=".TempActivity"
             android:label="@string/app_name" >
