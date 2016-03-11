@@ -1,14 +1,29 @@
 package com.example.daniel_li.prog2b;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class simple2activity extends AppCompatActivity {
 
@@ -18,8 +33,16 @@ public class simple2activity extends AppCompatActivity {
     String w1 = "temp";
     String t1 = "temp";
     String end1 = "temp";
-    String b1 = "temp"; //bioguide
-    String com1 = "temp"; //bioguide
+    String bioguide = "temp";
+    String b1 = "Bills: "; //bioguide
+    String com1 = "Commitees: "; //bioguide
+
+    int leng = 0;
+
+    private JSONArray representativesJSONArray;
+    String API_URL = "http://congress.api.sunlightfoundation.com/committees?member_ids=";
+    String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
+    String API_URL2 = "http://congress.api.sunlightfoundation.com/bills?sponsor_id=";
     ImageView iv;
 
 
@@ -31,13 +54,27 @@ public class simple2activity extends AppCompatActivity {
         setSupportActionBar(ab);
         getSupportActionBar().setTitle("Detailed View");
         Intent intent = getIntent();
+        //get remaining info
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            bioguide = intent.getStringExtra("bio");
+            String urlzip = API_URL + bioguide + "&apikey=" + API_KEY;
+            String urlzip2 = API_URL2 + bioguide + "&apikey=" + API_KEY;
+            new DownloadWebpageTask().execute(urlzip);
+            new DownloadWebpageTask().execute(urlzip2);
+        }
+
+
+
         //set detailed view
-        s1 = intent.getStringExtra("title");
-        p1 = intent.getStringExtra("party");
-        e1 = intent.getStringExtra("oc_email");
-        w1 = intent.getStringExtra("website");
-        t1 = intent.getStringExtra("twitter_id");
-        end1 = intent.getStringExtra("term_end");
+        s1 = intent.getStringExtra("name");
+        p1 = "Party: " + intent.getStringExtra("party");
+        e1 = "Email: " + intent.getStringExtra("email");
+        w1 = "Website: " + intent.getStringExtra("website");
+        t1 = "Tweet: " + intent.getStringExtra("tweet");
+        end1 = "End: " + intent.getStringExtra("end");
         detailPopulate();
     }
 
@@ -55,10 +92,90 @@ public class simple2activity extends AppCompatActivity {
         tweet1.setText(t1);
         TextView end = (TextView) findViewById(R.id.end);
         end.setText(end1);
-        TextView bill = (TextView) findViewById(R.id.bills);
-        bill.setText(b1);
-        TextView committee = (TextView) findViewById(R.id.committees);
-        committee.setText(com1);
-
     }
+
+    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                    bufferedReader.close();
+                    return stringBuilder.toString();
+                }
+                finally{
+                    urlConnection.disconnect();
+                }
+            }
+            catch(Exception e) {
+                Log.e("ERROR", e.getMessage(), e);
+                return null;
+            }
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String response) {
+            JSONObject JSONobj;
+            if(response != null) {
+                try {
+                    JSONobj = (JSONObject) new JSONTokener(response).nextValue();
+                    representativesJSONArray = JSONobj.getJSONArray("results");
+                    System.out.println(representativesJSONArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (representativesJSONArray != null) {
+                for (int i=0; i< representativesJSONArray.length() ;i++){
+                    try {
+                        JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
+                        if (i < 3) {
+                            leng = representativesJSONArray.length();
+                            com1 += temp.getString("name") + ", ";
+                        } else if (i == 3) {
+                            com1 += temp.getString("name");
+                        }
+
+                        if (i < leng + 3) {
+                            b1 += temp.getString("introduced_on") + ", ";
+                                if (temp.getString("short_title") != null) {
+                                    b1 += temp.getString("short_title");
+                                } else {
+                                    b1 += temp.getString("official_title");
+                                }
+                        } else if (i == leng + 3){
+                            b1 += temp.getString("introduced_on");
+                                if (temp.getString("short_title") != null) {
+                                    b1 += temp.getString("short_title");
+                                } else {
+                                    b1 += temp.getString("official_title");
+                                }
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            System.out.println(com1);
+            TextView bill = (TextView) findViewById(R.id.bills);
+            bill.setText(com1);
+            System.out.println(b1);
+            TextView committee = (TextView) findViewById(R.id.committees);
+            committee.setText(b1);
+        }
+    }
+    //bills -> date and name
+    //introduced_on + short_title
+
 }

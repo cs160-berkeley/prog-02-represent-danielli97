@@ -228,6 +228,7 @@ public class simpleview extends AppCompatActivity {
         //pack in intent shit
         System.out.println("sent intent");
         Intent intent = new Intent(this, simple2activity.class);
+        System.out.println("s1  " + s1);
         intent.putExtra("name", s1);
         intent.putExtra("party", p1);
         intent.putExtra("email", e1);
