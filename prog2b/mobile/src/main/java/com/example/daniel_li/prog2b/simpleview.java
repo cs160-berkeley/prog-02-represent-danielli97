@@ -80,6 +80,8 @@ public class simpleview extends AppCompatActivity {
         Toolbar ab = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(ab);
         getSupportActionBar().setTitle("Congressional View");
+
+
         Intent intent = getIntent();
 
         //zipcode = intent.getStringExtra("type");

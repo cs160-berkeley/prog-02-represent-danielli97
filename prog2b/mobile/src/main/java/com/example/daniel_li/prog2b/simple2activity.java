@@ -77,7 +77,7 @@ public class simple2activity extends AppCompatActivity {
         e1 = "Email: " + intent.getStringExtra("email");
         w1 = "Website: " + intent.getStringExtra("website");
         t1 = "Tweet: " + intent.getStringExtra("tweet");
-        end1 = "End: " + intent.getStringExtra("end");
+        end1 = "End Date: " + intent.getStringExtra("end");
         detailPopulate();
     }
 

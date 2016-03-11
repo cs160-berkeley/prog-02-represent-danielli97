@@ -7,8 +7,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.view.WearableListView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,16 @@ import android.widget.TextView;
 import com.google.android.gms.wearable.Wearable;
 import com.squareup.seismic.ShakeDetector;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends Activity implements WearableListView.ClickListener {
 
 
@@ -26,7 +38,8 @@ public class MainActivity extends Activity implements WearableListView.ClickList
     String rep;
     String state = "CA";
     String party = "Democrat";
-    private String[] s1 = {sen1, sen2, rep};
+    JSONArray representativesJSONArray;
+    //private String[] s1 = {sen1, sen2, rep};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +48,14 @@ public class MainActivity extends Activity implements WearableListView.ClickList
         WearableListView listView = (WearableListView) findViewById(R.id.wearable_list);
         String data = getIntent().getExtras().getString("1");
         //populate list
-        sen1 = "temp";
-        sen2 = "temp";
-        rep = "temp";
 
+
+
+
+        populatelist();
+        String[] s1 = {sen1, sen2, rep};
         //assign an adpter
+        System.out.println(s1.toString());
         listView.setAdapter(new Adapter(this, s1));
 
 
@@ -50,6 +66,30 @@ public class MainActivity extends Activity implements WearableListView.ClickList
 
     }
 
+    public void populatelist() {
+        System.out.println("here");
+        if (representativesJSONArray != null) {
+            for (int i=0; i<representativesJSONArray.length();i++){
+                try {
+                    JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
+                    if (i == 0) {
+                        sen1 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        System.out.println(sen1);
+                    } else if (i == 1) {
+                        sen2  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        System.out.println(sen2);
+                    } else if (i == 2) {
+                        rep  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        System.out.println(rep);
+                    } else if (i == 3) {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public void onClick(WearableListView.ViewHolder v) {
         WatchToPhoneService.sendMessage("/test", "Good job!", this);
@@ -65,7 +105,71 @@ public class MainActivity extends Activity implements WearableListView.ClickList
 
 
 
+    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
 
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                    bufferedReader.close();
+                    System.out.println(stringBuilder.toString());
+                    return stringBuilder.toString();
+                }
+                finally{
+                    urlConnection.disconnect();
+                }
+            }
+            catch(Exception e) {
+                Log.e("ERROR", e.getMessage(), e);
+                return null;
+            }
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String response) {
+            JSONObject JSONobj;
+            if(response != null) {
+                try {
+                    JSONobj = (JSONObject) new JSONTokener(response).nextValue();
+                    representativesJSONArray = JSONobj.getJSONArray("results");
+                    System.out.println("rep " + representativesJSONArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (representativesJSONArray != null) {
+                for (int i=0; i<representativesJSONArray.length();i++){
+                    try {
+                        JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
+                        if (i == 0) {
+                            sen1 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                            System.out.println(sen1);
+                        } else if (i == 1) {
+                            sen2  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                            System.out.println(sen2);
+                        } else if (i == 2) {
+                            rep  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                            System.out.println(rep);
+                        } else if (i == 3) {
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+    }
 
 
 
