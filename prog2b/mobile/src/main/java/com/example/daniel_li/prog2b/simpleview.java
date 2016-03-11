@@ -32,24 +32,32 @@ public class simpleview extends AppCompatActivity {
     String e1 = "temp";
     String w1 = "temp";
     String t1 = "temp";
+    String end1 = "temp";
+    String bg1 = "temp";
 
     String s2 = "temp";
     String p2 = "temp";
     String e2 = "temp";
     String w2 = "temp";
     String t2 = "temp";
+    String end2 = "temp";
+    String bg2 = "temp";
 
     String r1 = "temp";
     String p3 = "temp";
     String e3 = "temp";
     String w3 = "temp";
     String t3 = "temp";
+    String end3 = "temp";
+    String bg3 = "temp";
 
     String r2 = "temp";
     String p4 = "temp";
     String e4 = "temp";
     String w4 = "temp";
     String t4 = "temp";
+    String end4 = "temp";
+    String bg4 = "temp";
 
 
     String zipcode = "94704";
@@ -108,13 +116,23 @@ public class simpleview extends AppCompatActivity {
        }
     }
 
+    public String partyf(String s) {
+        if (s.matches("R")) {
+            return "Republican";
+        } else if (s.matches("D")) {
+            return "Democrat";
+        } else if (s.matches("I")) {
+            return "Independent";
+        }
+        return null;
+    }
     public void senator1(JSONObject obj) throws JSONException {
         //set image
-        s1 = obj.getString("title") +  " " + obj.getString("first_name");
+        s1 = obj.getString("title") +  " " + obj.getString("first_name") + " " + obj.getString("last_name");
         TextView sen1 = (TextView) findViewById(R.id.sen1);
         sen1.setText(s1);
 
-        p1 = obj.getString("party");
+        p1 = partyf(obj.getString("party"))+ ", " + obj.getString("state_name");
         TextView party1 = (TextView) findViewById(R.id.party1);
         party1.setText(p1);
 
@@ -129,15 +147,18 @@ public class simpleview extends AppCompatActivity {
         t1 = obj.getString("twitter_id");
         TextView tweet1 = (TextView) findViewById(R.id.tweet1);
         tweet1.setText(t1);
+
+        end1 = obj.getString("term_end");
+        bg1 = obj.getString("bioguide_id");
     }
 
     public void senator2(JSONObject obj) throws  JSONException {
         //set image
-        s2 = obj.getString("title") +  " " + obj.getString("first_name");
+        s2 = obj.getString("title") +  " " + obj.getString("first_name")+ " " + obj.getString("last_name");
         TextView sen2 = (TextView) findViewById(R.id.sen2);
         sen2.setText(s2);
 
-        p2 = obj.getString("party");
+        p2 = partyf(obj.getString("party")) + ", " + obj.getString("state_name");
         TextView party2 = (TextView) findViewById(R.id.party2);
         party2.setText(p2);
 
@@ -156,11 +177,11 @@ public class simpleview extends AppCompatActivity {
 
     public void senator3(JSONObject obj) throws JSONException {
         //set image
-        r1 = obj.getString("title") +  " " + obj.getString("first_name");
+        r1 = obj.getString("title") +  " " + obj.getString("first_name") + " " + obj.getString("last_name");
         TextView sen3 = (TextView) findViewById(R.id.sen3);
         sen3.setText(r1);
 
-        p3 = obj.getString("party");
+        p3 = partyf(obj.getString("party"))+ ", " + obj.getString("state_name");
         TextView party3 = (TextView) findViewById(R.id.party3);
         party3.setText(p3);
 
@@ -180,15 +201,23 @@ public class simpleview extends AppCompatActivity {
 
     public void senator4(JSONObject obj) throws  JSONException {
         //set image
-
+        r2 = obj.getString("title") +  " " + obj.getString("first_name")  + " " + obj.getString("last_name");
         TextView sen3 = (TextView) findViewById(R.id.sen4);
         sen3.setText(r2);
+
+        p4 = partyf(obj.getString("party"))+ ", " + obj.getString("state_name");
         TextView party3 = (TextView) findViewById(R.id.party4);
         party3.setText(p4);
+
+        e3 = obj.getString("oc_email");
         TextView email3 = (TextView) findViewById(R.id.email4);
         email3.setText(e4);
+
+        w3 = obj.getString("website");
         TextView website3 = (TextView) findViewById(R.id.website4);
         website3.setText(w4);
+
+        t4 = obj.getString("twitter_id");
         TextView tweet3 = (TextView) findViewById(R.id.tweet4);
         tweet3.setText(t4);
 
@@ -197,36 +226,61 @@ public class simpleview extends AppCompatActivity {
     public void detailedView1(View view)
     {
         //pack in intent shit
-        TextView name = (TextView) findViewById(R.id.sen1);
+        System.out.println("sent intent");
         Intent intent = new Intent(this, simple2activity.class);
-        intent.putExtra("name", name.toString());
+        intent.putExtra("name", s1);
+        intent.putExtra("party", p1);
+        intent.putExtra("email", e1);
+        intent.putExtra("website", w1);
+        intent.putExtra("tweet", t1);
+        intent.putExtra("end", end1);
+        intent.putExtra("bio", bg1);
         startActivity(intent);
+        System.out.println("received intent");
     }
 
     public void detailedView2(View view)
     {
         //pack in intent shit
-        TextView name = (TextView) findViewById(R.id.sen2);
+        System.out.println("sent intent");
         Intent intent = new Intent(this, simple2activity.class);
-        intent.putExtra("name", name.toString());
+        intent.putExtra("name", s2);
+        intent.putExtra("party", p2);
+        intent.putExtra("email", e2);
+        intent.putExtra("website", w2);
+        intent.putExtra("tweet", t2);
+        intent.putExtra("end", end2);
+        intent.putExtra("bio", bg2);
         startActivity(intent);
     }
 
     public void detailedView3(View view)
     {
         //pack in intent shit
-        TextView name = (TextView) findViewById(R.id.sen3);
+        System.out.println("sent intent");
         Intent intent = new Intent(this, simple2activity.class);
-        intent.putExtra("name", name.toString());
+        intent.putExtra("name", r1);
+        intent.putExtra("party", p3);
+        intent.putExtra("email", e3);
+        intent.putExtra("website", w3);
+        intent.putExtra("tweet", t3);
+        intent.putExtra("end", end3);
+        intent.putExtra("bio", bg3);
         startActivity(intent);
     }
 
     public void detailedView4(View view)
     {
         //pack in intent shit
-        TextView name = (TextView) findViewById(R.id.sen4);
+        System.out.println("sent intent");
         Intent intent = new Intent(this, simple2activity.class);
-        intent.putExtra("name", name.toString());
+        intent.putExtra("name", r2);
+        intent.putExtra("party", p4);
+        intent.putExtra("email", e4);
+        intent.putExtra("website", w4);
+        intent.putExtra("tweet", t4);
+        intent.putExtra("end", end4);
+        intent.putExtra("bio", bg4);
         startActivity(intent);
     }
 

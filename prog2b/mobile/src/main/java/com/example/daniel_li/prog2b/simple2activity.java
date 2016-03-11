@@ -32,6 +32,12 @@ public class simple2activity extends AppCompatActivity {
         getSupportActionBar().setTitle("Detailed View");
         Intent intent = getIntent();
         //set detailed view
+        s1 = intent.getStringExtra("title");
+        p1 = intent.getStringExtra("party");
+        e1 = intent.getStringExtra("oc_email");
+        w1 = intent.getStringExtra("website");
+        t1 = intent.getStringExtra("twitter_id");
+        end1 = intent.getStringExtra("term_end");
         detailPopulate();
     }
 
