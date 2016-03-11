@@ -37,9 +37,12 @@ public class simple2activity extends AppCompatActivity {
     String b1 = "Bills: "; //bioguide
     String com1 = "Commitees: "; //bioguide
 
+    int toggle = 0;
     int leng = 0;
 
     private JSONArray representativesJSONArray;
+    private JSONArray billsJSONArray;
+
     String API_URL = "http://congress.api.sunlightfoundation.com/committees?member_ids=";
     String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
     String API_URL2 = "http://congress.api.sunlightfoundation.com/bills?sponsor_id=";
@@ -99,6 +102,30 @@ public class simple2activity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 
             // params comes from the execute() call: params[0] is the url.
+            if (toggle == 1) {
+                try {
+                    URL url = new URL(urls[0]);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    try {
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            stringBuilder.append(line).append("\n");
+                        }
+                        bufferedReader.close();
+                        toggle = 1;
+                        return stringBuilder.toString();
+                    }
+                    finally{
+                        urlConnection.disconnect();
+                    }
+                }
+                catch(Exception e) {
+                    Log.e("ERROR", e.getMessage(), e);
+                    return null;
+                }
+            }
             try {
                 URL url = new URL(urls[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -110,6 +137,7 @@ public class simple2activity extends AppCompatActivity {
                         stringBuilder.append(line).append("\n");
                     }
                     bufferedReader.close();
+                    toggle = 1;
                     return stringBuilder.toString();
                 }
                 finally{
@@ -129,9 +157,38 @@ public class simple2activity extends AppCompatActivity {
                 try {
                     JSONobj = (JSONObject) new JSONTokener(response).nextValue();
                     representativesJSONArray = JSONobj.getJSONArray("results");
+                    if (toggle == 1) {
+                        billsJSONArray = JSONobj.getJSONArray("results");
+                    }
                     System.out.println(representativesJSONArray.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+            }
+            if (billsJSONArray != null && toggle == 1) {
+                for (int i = 0; i < billsJSONArray.length(); i++) {
+                    try {
+                        JSONObject temp = (JSONObject) billsJSONArray.get(i);
+
+                        if (i < 3) {
+                            b1 += temp.getString("introduced_on") + ", ";
+                            if (temp.getString("short_title") != null) {
+                                b1 += temp.getString("short_title");
+                            } else {
+                                b1 += temp.getString("official_title");
+                            }
+                        } else if (i == 3) {
+                            b1 += temp.getString("introduced_on");
+                            if (temp.getString("short_title") != null) {
+                                b1 += temp.getString("short_title");
+                            } else {
+                                b1 += temp.getString("official_title");
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             if (representativesJSONArray != null) {
@@ -145,21 +202,21 @@ public class simple2activity extends AppCompatActivity {
                             com1 += temp.getString("name");
                         }
 
-                        if (i < leng + 3) {
-                            b1 += temp.getString("introduced_on") + ", ";
-                                if (temp.getString("short_title") != null) {
-                                    b1 += temp.getString("short_title");
-                                } else {
-                                    b1 += temp.getString("official_title");
-                                }
-                        } else if (i == leng + 3){
-                            b1 += temp.getString("introduced_on");
-                                if (temp.getString("short_title") != null) {
-                                    b1 += temp.getString("short_title");
-                                } else {
-                                    b1 += temp.getString("official_title");
-                                }
-                        }
+//                        if (i < leng + 3) {
+//                            b1 += temp.getString("introduced_on") + ", ";
+//                                if (temp.getString("short_title") != null) {
+//                                    b1 += temp.getString("short_title");
+//                                } else {
+//                                    b1 += temp.getString("official_title");
+//                                }
+//                        } else if (i == leng + 3){
+//                            b1 += temp.getString("introduced_on");
+//                                if (temp.getString("short_title") != null) {
+//                                    b1 += temp.getString("short_title");
+//                                } else {
+//                                    b1 += temp.getString("official_title");
+//                                }
+//                        }
 
 
                     } catch (JSONException e) {
