@@ -21,15 +21,23 @@ import com.squareup.seismic.ShakeDetector;
 public class MainActivity extends Activity implements WearableListView.ClickListener {
 
 
-    private String[] s1 = {"Dianne Feinstein", "Dianne Feinstein", "Dianne Feinstein"};
+    String sen1;
+    String sen2;
+    String rep;
+    String state = "CA";
+    String party = "Democrat";
+    private String[] s1 = {sen1, sen2, rep};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wear_activity_main);
+        WearableListView listView = (WearableListView) findViewById(R.id.wearable_list);
         String data = getIntent().getExtras().getString("1");
         //populate list
-        WearableListView listView = (WearableListView) findViewById(R.id.wearable_list);
+        sen1 = "temp";
+        sen2 = "temp";
+        rep = "temp";
 
         //assign an adpter
         listView.setAdapter(new Adapter(this, s1));
@@ -46,11 +54,39 @@ public class MainActivity extends Activity implements WearableListView.ClickList
     public void onClick(WearableListView.ViewHolder v) {
         WatchToPhoneService.sendMessage("/test", "Good job!", this);
         Intent intent = new Intent(this, DetailedView.class );
+        intent.putExtra("name", sen1);
+        intent.putExtra("state", state);
+        intent.putExtra("party", party);
         startActivity(intent);
     }
     public void onTopEmptyRegionClick() {
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private static final class Adapter extends WearableListView.Adapter {

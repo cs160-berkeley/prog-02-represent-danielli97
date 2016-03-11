@@ -72,7 +72,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="fill_parent"
                                 android:gravity="center_vertical"
-                                android:text="\n\n         Senator\n   Dianne Feinstein\n\n"
+                                android:paddingTop="50dp"
+                                android:paddingBottom="50dp"
+                                android:id="@+id/name"
                                 android:textSize="20sp"
                                 android:textColor="#111"
                                 android:textIsSelectable="false"
@@ -108,13 +110,69 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:orientation="vertical"
                         android:layout_weight="3">
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="fill_parent"
                             android:gravity="center_vertical"
-                            android:text="Party: Democrat - California\n\nEmail: www.feinstein.senate.gov/public/index.cfm/e-mail-me\n\nWebsite: http://www.feinstein.senate.gov/public/\n\nLast Tweet: Today we reflect on the contributions and leadership of U.S. presidents throughout our nation’s great history. Happy #PresidentsDay.\n\nEnd Date: 2016 (Pulled by API)\n\nCommittees: (Pulled by API)\n\nSponsored Bills: (Pulled by API)\n"
-                            android:textSize="12sp"
+                            android:id="@+id/party1"
+                            android:textSize="10sp"
+                            android:textColor="#111"
+                            android:paddingBottom="5dp"
+                            android:textIsSelectable="false"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:id="@+id/email1"
+                            android:textSize="10sp"
+                            android:paddingBottom="5dp"
+                            android:textColor="#111"
+                            android:textIsSelectable="false"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:id="@+id/website1"
+                            android:textSize="10sp"
+                            android:paddingBottom="5dp"
+                            android:textColor="#111"
+                            android:textIsSelectable="false"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:id="@+id/tweet1"
+                            android:textSize="10sp"
+                            android:paddingBottom="5dp"
+                            android:textColor="#111"
+                            android:textIsSelectable="false"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:id="@+id/end"
+                            android:textSize="10sp"
+                            android:paddingBottom="5dp"
+                            android:textColor="#111"
+                            android:textIsSelectable="false"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:id="@+id/bills"
+                            android:textSize="10sp"
+                            android:paddingBottom="5dp"
+                            android:textColor="#111"
+                            android:textIsSelectable="false"/>
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:gravity="center_vertical"
+                            android:id="@+id/committees"
+                            android:textSize="10sp"
+                            android:paddingBottom="5dp"
                             android:textColor="#111"
                             android:textIsSelectable="false"/>
                     </LinearLayout>

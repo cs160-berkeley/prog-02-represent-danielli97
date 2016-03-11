@@ -12,10 +12,14 @@ public class DetailedView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailedview);
+        //populate();
 
     }
 //    public void hearShake() {
 //        Intent intent = new Intent(this, LocationActivity.class );
 //        startActivity(intent);
 //    }
+    public void populate() {
+
+    }
 }

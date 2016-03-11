@@ -30,8 +30,13 @@ public class LocationActivity extends Activity {
                 //randomEvent2();
             }
         });
+        //populate();
+    }
+
+    public void populate() {
 
     }
+
     public void randomEvent2() {
         Log.d("potatoes", "bullshitass planet");
         WatchToPhoneService.sendMessage("", "", this);
