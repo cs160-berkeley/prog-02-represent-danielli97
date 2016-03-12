@@ -112,17 +112,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setSupportActionBar(ab);
         getSupportActionBar().setTitle("Represent!");
 
-        String value = String.valueOf(inputtedZipCode.getText());
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            System.out.println(value);
-            String urlzip = API_URL + "zip=" + value + "&apikey=" + API_KEY;
-            System.out.println(urlzip);
-            //builds my string
-            new DownloadWebpageTask().execute(urlzip);
-        }
     }
 
     //map shit
@@ -168,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             try {
                 JSONobj = (JSONObject) new JSONTokener(response).nextValue();
                 representativesJSONArray = JSONobj.getJSONArray("results");
-                System.out.println(representativesJSONArray.toString());
+                //System.out.println(representativesJSONArray.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -180,13 +169,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     JSONObject temp = (JSONObject) representativesJSONArray.get(i);
                     if (i == 0) {
                         s1 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        p1 = temp.getString("party");
                         System.out.println("asdf" + s1);
                     } else if (i == 1) {
                         s2 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        p2 = temp.getString("party");
                     } else if (i == 2) {
                         r1 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        p3 = temp.getString("party");
                     } else if (i == 3) {
                         r2 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        p4 = temp.getString("party");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -219,9 +212,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         sendIntent.putExtra("s1", s1);
         sendIntent.putExtra("s2", s2);
         sendIntent.putExtra("r1", r1);
+        sendIntent.putExtra("p1", p1);
+        sendIntent.putExtra("p2", p2);
+        sendIntent.putExtra("p3", p3);
         System.out.println("reps 3");
         if (!r2.matches("temp")) {
             sendIntent.putExtra("r2", r2);
+            sendIntent.putExtra("p4", p4);
         }
         sendIntent.putExtra("zip", value);
         startService(sendIntent);
@@ -252,12 +249,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             System.out.println("latitude " + lat);
             System.out.println("longitude " + lng);
             ziplocated = "94704"; //for now
+
+
+            //romney info
+            String taskResult2;
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                System.out.println(value);
+                String urlzip = "https://raw.githubusercontent.com/cs160-sp16/voting-data/master/election-county-2012.json";
+                System.out.println(urlzip);
+                //builds my string
+                try {
+                    taskResult2 = new DownloadWebpageTask().execute(urlzip).get();
+                    System.out.println("this is my task result" + taskResult2);
+
+                } catch (Exception e) {
+
+                }
+            }
             Intent sendIntent = new Intent(this, PhoneToWatchService.class);
             sendIntent.putExtra("location", ziplocated);
             String lat2 = String.valueOf(lat);
             String lng2 = String.valueOf(lng);
-
-
             sendIntent.putExtra("LAT", lat2);
             sendIntent.putExtra("LNG", lng2);
             startService(sendIntent);

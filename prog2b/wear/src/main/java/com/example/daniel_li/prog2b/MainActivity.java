@@ -38,13 +38,16 @@ public class MainActivity extends Activity implements WearableListView.ClickList
     String sen1 = "temp";
     String sen2;
     String rep;
+    String rep2;
+    String p1;
+    String p2;
+    String p3;
+    String p4;
     String state = "CA";
     String party = "Democrat";
     JSONArray representativesJSONArray;
-    //private String[] s1 = {sen1, sen2, rep};
+    Boolean toggle = false;
 
-    String API_URL = "http://congress.api.sunlightfoundation.com/legislators/locate?";
-    String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,9 @@ public class MainActivity extends Activity implements WearableListView.ClickList
         Intent intent = getIntent();
         String parseMe = intent.getExtras().getString("1");
         String[] parsed = parseMe.split(",");
+        System.out.println(parsed.toString());
         for (int i = 0; i < parsed.length; i++) {
-            while (parsed[i] != null) {
+            if (parsed[i] != null) {
                 if (i == 0) {
                     sen1 = parsed[i];
                 }
@@ -65,15 +69,41 @@ public class MainActivity extends Activity implements WearableListView.ClickList
                 if (i == 2) {
                     rep = parsed[i];
                 }
-                if (i == 3) {
-                    sen1 = parsed[i];
+                if (toggle || i == 3) {
+                    if (parsed[i] != null) {
+                        toggle = true;
+                        rep2 = parsed[i];
+                    } else {
+                        p1 = parsed[i];
+                        if (i == 4) {
+                            p1 = parsed[i];
+                        }
+                        if (i == 5) {
+                            p2 = parsed[i];
+                        }
+                        if (i == 6) {
+                            p3 = parsed[i];
+                        }
+                        if (i == 7) {
+                            p4 = parsed[i];
+                        }
+                    }
+                } else {
+                    if (i == 3) {
+                        p1 = parsed[i];
+                    }
+                    if (i == 4) {
+                        p2 = parsed[i];
+                    }
+                    if (i == 5) {
+                        p3 = parsed[i];
+                    }
                 }
             }
         }
         //populate list
-
-        System.out.println("senator" + sen1);
         String[] s1 = {sen1, sen2, rep};
+        System.out.println(s1.toString());
         //assign an adpter
         System.out.println(s1.toString());
         listView.setAdapter(new Adapter(this, s1));
@@ -82,27 +112,16 @@ public class MainActivity extends Activity implements WearableListView.ClickList
 
     }
 
-
     public void onClick(WearableListView.ViewHolder v) {
         WatchToPhoneService.sendMessage("/test", "Good job!", this);
         Intent intent = new Intent(this, DetailedView.class );
         intent.putExtra("name", sen1);
-        intent.putExtra("state", state);
-        intent.putExtra("party", party);
+        intent.putExtra("party", p1);
         startActivity(intent);
     }
     public void onTopEmptyRegionClick() {
 
     }
-
-
-
-
-
-
-
-
-
 
 
     private static final class Adapter extends WearableListView.Adapter {
