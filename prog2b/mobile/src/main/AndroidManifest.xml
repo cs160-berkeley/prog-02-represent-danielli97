@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <dependency>
+        <groupId>com.squareup.picasso</groupId>
+        <artifactId>picasso</artifactId>
+        <version>2.5.2</version>
+    </dependency>
 
     <application
         android:allowBackup="true"
@@ -13,7 +18,11 @@
         android:label="Represent!"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <dependency>
+            <groupId>com.squareup.picasso</groupId>
+            <artifactId>picasso</artifactId>
+            <version>2.5.2</version>
+        </dependency>
         <!--mMAP STUFF-->
 
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

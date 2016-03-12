@@ -12,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +62,10 @@ public class simpleview extends AppCompatActivity {
     String end4 = "temp";
     String bg4 = "temp";
 
+    ImageView iv1;
+    ImageView iv2;
+    ImageView iv3;
+    ImageView iv4;
 
     String zipcode = "94704";
 
@@ -130,6 +137,13 @@ public class simpleview extends AppCompatActivity {
     }
     public void senator1(JSONObject obj) throws JSONException {
         //set image
+        end1 = obj.getString("term_end");
+        bg1 = obj.getString("bioguide_id");
+
+        ImageView iv1 = (ImageView) findViewById(R.id.d1);
+        Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
+        bg1 + ".jpg").into(iv1);
+
         s1 = obj.getString("title") +  " " + obj.getString("first_name") + " " + obj.getString("last_name");
         TextView sen1 = (TextView) findViewById(R.id.sen1);
         sen1.setText(s1);
@@ -150,12 +164,17 @@ public class simpleview extends AppCompatActivity {
         TextView tweet1 = (TextView) findViewById(R.id.tweet1);
         tweet1.setText(t1);
 
-        end1 = obj.getString("term_end");
-        bg1 = obj.getString("bioguide_id");
     }
 
     public void senator2(JSONObject obj) throws  JSONException {
         //set image
+        end2 = obj.getString("term_end");
+        bg2 = obj.getString("bioguide_id");
+
+        ImageView iv2 = (ImageView) findViewById(R.id.d2);
+        Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
+                bg2 + ".jpg").into(iv2);
+
         s2 = obj.getString("title") +  " " + obj.getString("first_name")+ " " + obj.getString("last_name");
         TextView sen2 = (TextView) findViewById(R.id.sen2);
         sen2.setText(s2);
@@ -179,6 +198,14 @@ public class simpleview extends AppCompatActivity {
 
     public void senator3(JSONObject obj) throws JSONException {
         //set image
+        end3 = obj.getString("term_end");
+        bg3 = obj.getString("bioguide_id");
+
+        ImageView iv3 = (ImageView) findViewById(R.id.d3);
+        Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
+                bg3 + ".jpg").into(iv3);
+
+
         r1 = obj.getString("title") +  " " + obj.getString("first_name") + " " + obj.getString("last_name");
         TextView sen3 = (TextView) findViewById(R.id.sen3);
         sen3.setText(r1);
@@ -203,6 +230,13 @@ public class simpleview extends AppCompatActivity {
 
     public void senator4(JSONObject obj) throws  JSONException {
         //set image
+        end4 = obj.getString("term_end");
+        bg4 = obj.getString("bioguide_id");
+
+        ImageView iv4 = (ImageView) findViewById(R.id.d4);
+        Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
+                bg4 + ".jpg").into(iv4);
+
         r2 = obj.getString("title") +  " " + obj.getString("first_name")  + " " + obj.getString("last_name");
         TextView sen3 = (TextView) findViewById(R.id.sen4);
         sen3.setText(r2);
@@ -305,7 +339,7 @@ public class simpleview extends AppCompatActivity {
                         stringBuilder.append(line).append("\n");
                     }
                     bufferedReader.close();
-                    //System.out.println(stringBuilder.toString());
+                    System.out.println(stringBuilder.toString());
                     return stringBuilder.toString();
                 }
                 finally{
@@ -325,7 +359,7 @@ public class simpleview extends AppCompatActivity {
                 try {
                     JSONobj = (JSONObject) new JSONTokener(response).nextValue();
                     representativesJSONArray = JSONobj.getJSONArray("results");
-                    //System.out.println(representativesJSONArray.toString());
+                    System.out.println(representativesJSONArray.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

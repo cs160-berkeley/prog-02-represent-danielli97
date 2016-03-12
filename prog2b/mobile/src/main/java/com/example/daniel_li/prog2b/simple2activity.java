@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +48,6 @@ public class simple2activity extends AppCompatActivity {
     String API_URL = "http://congress.api.sunlightfoundation.com/committees?member_ids=";
     String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
     String API_URL2 = "http://congress.api.sunlightfoundation.com/bills?sponsor_id=";
-    ImageView iv;
 
 
     @Override
@@ -72,6 +73,9 @@ public class simple2activity extends AppCompatActivity {
 
 
         //set detailed view
+        ImageView iv1 = (ImageView) findViewById(R.id.d);
+        Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
+                bioguide + ".jpg").into(iv1);
         s1 = intent.getStringExtra("name");
         p1 = "Party: " + intent.getStringExtra("party");
         e1 = "Email: " + intent.getStringExtra("email");
@@ -201,23 +205,6 @@ public class simple2activity extends AppCompatActivity {
                         } else if (i == 3) {
                             com1 += temp.getString("name");
                         }
-
-//                        if (i < leng + 3) {
-//                            b1 += temp.getString("introduced_on") + ", ";
-//                                if (temp.getString("short_title") != null) {
-//                                    b1 += temp.getString("short_title");
-//                                } else {
-//                                    b1 += temp.getString("official_title");
-//                                }
-//                        } else if (i == leng + 3){
-//                            b1 += temp.getString("introduced_on");
-//                                if (temp.getString("short_title") != null) {
-//                                    b1 += temp.getString("short_title");
-//                                } else {
-//                                    b1 += temp.getString("official_title");
-//                                }
-//                        }
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -290,18 +290,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             }
 
-            //Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
-//            sendIntent.putExtra("s1", s1);
-//            sendIntent.putExtra("s2", s2);
-//            sendIntent.putExtra("r1", r1);
-//            sendIntent.putExtra("zip", "val");
-//            if (!r2.matches("temp")) {
-//                sendIntent.putExtra("r2", r2);
-//            }
-//            sendIntent.putExtra("zip", value);
-//            if (sendIntent != null) {
-//                startService(sendIntent);
-//            }
         }
 
     }
