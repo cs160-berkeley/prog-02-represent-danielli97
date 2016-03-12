@@ -112,7 +112,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setSupportActionBar(ab);
         getSupportActionBar().setTitle("Represent!");
 
-
+        String value = String.valueOf(inputtedZipCode.getText());
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            System.out.println(value);
+            String urlzip = API_URL + "zip=" + value + "&apikey=" + API_KEY;
+            System.out.println(urlzip);
+            //builds my string
+            new DownloadWebpageTask().execute(urlzip);
+        }
     }
 
     //map shit
@@ -152,9 +162,43 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionFailed(ConnectionResult connResult) {
     }
 
+    public void setSen(String response) {
+        JSONObject JSONobj;
+        if(response != null) {
+            try {
+                JSONobj = (JSONObject) new JSONTokener(response).nextValue();
+                representativesJSONArray = JSONobj.getJSONArray("results");
+                System.out.println(representativesJSONArray.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (representativesJSONArray != null) {
 
+            for (int i = 0; i < representativesJSONArray.length(); i++) {
+                try {
+                    JSONObject temp = (JSONObject) representativesJSONArray.get(i);
+                    if (i == 0) {
+                        s1 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        System.out.println("asdf" + s1);
+                    } else if (i == 1) {
+                        s2 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                    } else if (i == 2) {
+                        r1 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                    } else if (i == 3) {
+                        r2 = temp.getString("title") + " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
     public void zip(View view) {
-        String value = String.valueOf(inputtedZipCode.getText());
+        String taskResult = "";
+
+        value = String.valueOf(inputtedZipCode.getText());
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -163,17 +207,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             String urlzip = API_URL + "zip=" + value + "&apikey=" + API_KEY;
             System.out.println(urlzip);
             //builds my string
-            new DownloadWebpageTask().execute(urlzip);
-        }
+            try {
+                taskResult = new DownloadWebpageTask().execute(urlzip).get();
+                System.out.println("this is my task result" + taskResult);
+                setSen(taskResult);
+            } catch (Exception e) {
 
-//        System.out.println("print my fucking string " + s1);
+            }
+        }
         Intent sendIntent = new Intent(this, PhoneToWatchService.class);
-//        sendIntent.putExtra("s1", s1);
-//        sendIntent.putExtra("s2", s2);
-//        sendIntent.putExtra("r1", r1);
-//        if (!r2.matches("temp")) {
-//            sendIntent.putExtra("r2", r2);
-//        }
+        sendIntent.putExtra("s1", s1);
+        sendIntent.putExtra("s2", s2);
+        sendIntent.putExtra("r1", r1);
+        System.out.println("reps 3");
+        if (!r2.matches("temp")) {
+            sendIntent.putExtra("r2", r2);
+        }
         sendIntent.putExtra("zip", value);
         startService(sendIntent);
         Intent intent = new Intent(this, simpleview.class);
@@ -253,42 +302,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String response) {
-            JSONObject JSONobj;
-            if(response != null) {
-                try {
-                    JSONobj = (JSONObject) new JSONTokener(response).nextValue();
-                    representativesJSONArray = JSONobj.getJSONArray("results");
-                    System.out.println(representativesJSONArray.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (representativesJSONArray != null) {
 
-                for (int i=0; i<representativesJSONArray.length();i++){
-                    try {
-                        JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
-                        if (i == 0) {
-                            s1 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                            System.out.println("asdf" + s1);
-                        } else if (i == 1) {
-                            s2 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                        } else if (i == 2) {
-                            r1  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                        } else if (i == 3) {
-                            r2 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                System.out.println("reps 2");
-                System.out.println(s1);
-                System.out.println(s2);
-                System.out.println(r1);
-
-            }
 
         }
 

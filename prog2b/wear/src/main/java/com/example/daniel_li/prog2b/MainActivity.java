@@ -51,10 +51,25 @@ public class MainActivity extends Activity implements WearableListView.ClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wear_activity_main);
         WearableListView listView = (WearableListView) findViewById(R.id.wearable_list);
-        sen1 = getIntent().getExtras().getString("s1");
-        sen2 = getIntent().getExtras().getString("s2");
-        rep = getIntent().getExtras().getString("r1");
-
+        Intent intent = getIntent();
+        String parseMe = intent.getExtras().getString("1");
+        String[] parsed = parseMe.split(",");
+        for (int i = 0; i < parsed.length; i++) {
+            while (parsed[i] != null) {
+                if (i == 0) {
+                    sen1 = parsed[i];
+                }
+                if (i == 1) {
+                    sen2 = parsed[i];
+                }
+                if (i == 2) {
+                    rep = parsed[i];
+                }
+                if (i == 3) {
+                    sen1 = parsed[i];
+                }
+            }
+        }
         //populate list
 
         System.out.println("senator" + sen1);

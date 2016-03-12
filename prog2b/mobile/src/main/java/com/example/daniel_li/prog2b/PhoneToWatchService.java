@@ -52,7 +52,8 @@ public class PhoneToWatchService extends Service {
         Bundle extras = intent.getExtras();
             if(extras.getString("zip") != null){
                 send = "/zip";
-                value = extras.getString("zip");
+                value = extras.getString("s1") + "," + extras.getString("s2") + ","
+                + extras.getString("r1")+"," +extras.getString("r2");
             } else {
                 send = "/location";
                 value = extras.getString("location");
