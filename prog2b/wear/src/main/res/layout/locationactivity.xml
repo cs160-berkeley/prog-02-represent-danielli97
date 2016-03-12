@@ -10,6 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight=".5"
         android:textColor="@color/dark_blue"
-        android:text="2012 Election Vote\n\n\nRomney 30%\n\nObama 70%\n\n\nSan Francisco, CA"/>
+        android:text="2012 Election Vote\n\n\nRomney 10.9%\n\nObama 86.1%\n\n\nCambridge, MA"
+        android:id="@+id/elec"/>
 
 </LinearLayout>

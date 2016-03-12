@@ -18,7 +18,7 @@ public class DetailedView extends Activity {
         String addMe = "";
         addMe = intent.getExtras().getString("name");
         String concatme = intent.getExtras().getString("party");
-        addMe.concat(", " + concatme);
+        addMe = addMe.concat(", \n" + "Democrat");
         System.out.println("addme" + addMe);
         TextView set = (TextView) findViewById(R.id.input);
         set.setText(addMe);

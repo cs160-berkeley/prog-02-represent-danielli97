@@ -35,7 +35,7 @@ public class LocationActivity extends Activity {
     }
 
     public void populate() {
-
+        
     }
 
     public void randomEvent2() {

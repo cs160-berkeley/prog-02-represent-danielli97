@@ -30,8 +30,8 @@ public class TempActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Random rand = new Random();//rand
-        int x = rand.nextInt(2);
-        Log.d("T", String.valueOf(x));
+        //int x = rand.nextInt(2);
+        //Log.d("T", String.valueOf(x));
         super.onCreate(savedInstanceState);
 
 
@@ -41,12 +41,16 @@ public class TempActivity extends Activity {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("1", getIntent().getExtras().getString("1"));
             startActivity(intent);
-        } else if (x == 0) {
-            Intent intent = new Intent(this, LocationActivity2.class);
-            intent.putExtra("2", getIntent().getExtras().getString("2"));
-            startActivity(intent);
+//        } else if (x == 0) {
+//            Intent intent = new Intent(this, LocationActivity2.class);
+//            intent.putExtra("2", getIntent().getExtras().getString("2"));
+//            startActivity(intent);
         } else {
             Intent intent = new Intent(this, LocationActivity.class);
+
+
+            //vote info
+
             intent.putExtra("2", getIntent().getExtras().getString("2"));
             startActivity(intent);
         }

@@ -71,7 +71,6 @@ public class simpleview extends AppCompatActivity {
 
     String API_URL = "http://congress.api.sunlightfoundation.com/legislators/locate?";
     String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
-    String election = "https://raw.githubusercontent.com/cs160-sp16/voting-data/ master/election-county-2012.json";
 
     String lat;
     String lon;
@@ -139,6 +138,7 @@ public class simpleview extends AppCompatActivity {
         //set image
         end1 = obj.getString("term_end");
         bg1 = obj.getString("bioguide_id");
+        System.out.println("bioguide " + bg1);
 
         ImageView iv1 = (ImageView) findViewById(R.id.d1);
         Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
