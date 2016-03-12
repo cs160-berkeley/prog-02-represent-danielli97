@@ -305,7 +305,7 @@ public class simpleview extends AppCompatActivity {
                         stringBuilder.append(line).append("\n");
                     }
                     bufferedReader.close();
-                    System.out.println(stringBuilder.toString());
+                    //System.out.println(stringBuilder.toString());
                     return stringBuilder.toString();
                 }
                 finally{
@@ -325,7 +325,7 @@ public class simpleview extends AppCompatActivity {
                 try {
                     JSONobj = (JSONObject) new JSONTokener(response).nextValue();
                     representativesJSONArray = JSONobj.getJSONArray("results");
-                    System.out.println(representativesJSONArray.toString());
+                    //System.out.println(representativesJSONArray.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

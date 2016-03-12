@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,13 +36,19 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import io.fabric.sdk.android.Fabric;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,10 +65,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private String county;
     private String ziplocated;
 
+    //INPUTTED FINAL ZIPCODE
+    String value;
+
     private EditText inputtedZipCode;
     private GoogleApiClient mGoogleApiClient;
 
     protected Location mLastLocation;
+
+    String API_URL = "http://congress.api.sunlightfoundation.com/legislators/locate?";
+    String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
+
+
+    //STRINGS FOR SENATOR NAMES AND COUNTY INFO
+    JSONArray representativesJSONArray;
+    String s1 = "temp";
+    String s2 = "temp";
+    String r1 = "temp";
+    String r2 = "temp";
+    //PARTIES
+    String p1 = "temp";
+    String p2 = "temp";
+    String p3 = "temp";
+    String p4 = "temp";
+    //COUNTY STUFF TBD
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnected(Bundle connectionHint) {
         //ok
-        System.out.println("working");
+      //  System.out.println("working");
     }
 
     @Override
@@ -125,13 +154,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     public void zip(View view) {
-        Intent sendIntent = new Intent(this, PhoneToWatchService.class);
         String value = String.valueOf(inputtedZipCode.getText());
-        sendIntent.putExtra("zip", value);
-        startService(sendIntent);
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            System.out.println(value);
+            String urlzip = API_URL + "zip=" + value + "&apikey=" + API_KEY;
+            System.out.println(urlzip);
+            //builds my string
+            new DownloadWebpageTask().execute(urlzip);
+        }
+
+//        System.out.println("print my fucking string " + s1);
+        Intent sendIntent = new Intent(this, PhoneToWatchService.class);
+//        sendIntent.putExtra("s1", s1);
+//        sendIntent.putExtra("s2", s2);
+//        sendIntent.putExtra("r1", r1);
+//        if (!r2.matches("temp")) {
+//            sendIntent.putExtra("r2", r2);
+//        }
+        sendIntent.putExtra("zip", value);
+        startService(sendIntent);
         Intent intent = new Intent(this, simpleview.class);
         if (inputtedZipCode.getText().toString().length() == 5) {
             intent.putExtra("type", "zip");
@@ -163,9 +207,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             sendIntent.putExtra("location", ziplocated);
             String lat2 = String.valueOf(lat);
             String lng2 = String.valueOf(lng);
+
+
             sendIntent.putExtra("LAT", lat2);
             sendIntent.putExtra("LNG", lng2);
             startService(sendIntent);
+
+
             Intent intent = new Intent(this, simpleview.class);
             intent.putExtra("type", "coordinates");
             intent.putExtra("LAT", lat2);
@@ -173,5 +221,90 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             startActivity(intent);
         }
     }
+
+    public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                    bufferedReader.close();
+                    System.out.println(stringBuilder.toString());
+                    return stringBuilder.toString();
+                }
+                finally{
+                    urlConnection.disconnect();
+                }
+            }
+            catch(Exception e) {
+                Log.e("ERROR", e.getMessage(), e);
+                return null;
+            }
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String response) {
+            JSONObject JSONobj;
+            if(response != null) {
+                try {
+                    JSONobj = (JSONObject) new JSONTokener(response).nextValue();
+                    representativesJSONArray = JSONobj.getJSONArray("results");
+                    System.out.println(representativesJSONArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (representativesJSONArray != null) {
+
+                for (int i=0; i<representativesJSONArray.length();i++){
+                    try {
+                        JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
+                        if (i == 0) {
+                            s1 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                            System.out.println("asdf" + s1);
+                        } else if (i == 1) {
+                            s2 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        } else if (i == 2) {
+                            r1  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        } else if (i == 3) {
+                            r2 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                System.out.println("reps 2");
+                System.out.println(s1);
+                System.out.println(s2);
+                System.out.println(r1);
+
+            }
+
+            //Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+//            sendIntent.putExtra("s1", s1);
+//            sendIntent.putExtra("s2", s2);
+//            sendIntent.putExtra("r1", r1);
+//            sendIntent.putExtra("zip", "val");
+//            if (!r2.matches("temp")) {
+//                sendIntent.putExtra("r2", r2);
+//            }
+//            sendIntent.putExtra("zip", value);
+//            if (sendIntent != null) {
+//                startService(sendIntent);
+//            }
+        }
+
+    }
+
 
 }

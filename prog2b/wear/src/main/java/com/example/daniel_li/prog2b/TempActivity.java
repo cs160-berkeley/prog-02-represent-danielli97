@@ -61,7 +61,6 @@ public class TempActivity extends Activity {
             }
         });
 
-
     }
 
     public void randomEvent2() {

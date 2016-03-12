@@ -7,6 +7,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.view.WearableListView;
@@ -33,7 +35,7 @@ import java.net.URL;
 public class MainActivity extends Activity implements WearableListView.ClickListener {
 
 
-    String sen1;
+    String sen1 = "temp";
     String sen2;
     String rep;
     String state = "CA";
@@ -41,55 +43,30 @@ public class MainActivity extends Activity implements WearableListView.ClickList
     JSONArray representativesJSONArray;
     //private String[] s1 = {sen1, sen2, rep};
 
+    String API_URL = "http://congress.api.sunlightfoundation.com/legislators/locate?";
+    String API_KEY = "b090579dc143494d9a5b10a29bbb9049";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wear_activity_main);
         WearableListView listView = (WearableListView) findViewById(R.id.wearable_list);
-        String data = getIntent().getExtras().getString("1");
+        sen1 = getIntent().getExtras().getString("s1");
+        sen2 = getIntent().getExtras().getString("s2");
+        rep = getIntent().getExtras().getString("r1");
+
         //populate list
 
-
-
-
-        populatelist();
+        System.out.println("senator" + sen1);
         String[] s1 = {sen1, sen2, rep};
         //assign an adpter
         System.out.println(s1.toString());
         listView.setAdapter(new Adapter(this, s1));
 
-
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-
         listView.setClickListener(this);
 
     }
 
-    public void populatelist() {
-        System.out.println("here");
-        if (representativesJSONArray != null) {
-            for (int i=0; i<representativesJSONArray.length();i++){
-                try {
-                    JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
-                    if (i == 0) {
-                        sen1 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                        System.out.println(sen1);
-                    } else if (i == 1) {
-                        sen2  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                        System.out.println(sen2);
-                    } else if (i == 2) {
-                        rep  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                        System.out.println(rep);
-                    } else if (i == 3) {
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     public void onClick(WearableListView.ViewHolder v) {
         WatchToPhoneService.sendMessage("/test", "Good job!", this);
@@ -102,86 +79,6 @@ public class MainActivity extends Activity implements WearableListView.ClickList
     public void onTopEmptyRegionClick() {
 
     }
-
-
-
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-
-            // params comes from the execute() call: params[0] is the url.
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
-                    }
-                    bufferedReader.close();
-                    System.out.println(stringBuilder.toString());
-                    return stringBuilder.toString();
-                }
-                finally{
-                    urlConnection.disconnect();
-                }
-            }
-            catch(Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
-                return null;
-            }
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String response) {
-            JSONObject JSONobj;
-            if(response != null) {
-                try {
-                    JSONobj = (JSONObject) new JSONTokener(response).nextValue();
-                    representativesJSONArray = JSONobj.getJSONArray("results");
-                    System.out.println("rep " + representativesJSONArray.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (representativesJSONArray != null) {
-                for (int i=0; i<representativesJSONArray.length();i++){
-                    try {
-                        JSONObject temp = (JSONObject) representativesJSONArray.get(i) ;
-                        if (i == 0) {
-                            sen1 = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                            System.out.println(sen1);
-                        } else if (i == 1) {
-                            sen2  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                            System.out.println(sen2);
-                        } else if (i == 2) {
-                            rep  = temp.getString("title") +  " " + temp.getString("first_name") + " " + temp.getString("last_name");
-                            System.out.println(rep);
-                        } else if (i == 3) {
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -248,10 +145,6 @@ public class MainActivity extends Activity implements WearableListView.ClickList
         }
     }
     //map crap
-
-
-
-
 
 
 

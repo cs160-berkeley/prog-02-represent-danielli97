@@ -28,7 +28,8 @@ public class LocationActivity2 extends Activity {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                //randomEvent2();
+
+                randomEvent2();
             }
         });
     }

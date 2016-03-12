@@ -28,6 +28,7 @@ public class LocationActivity extends Activity {
 
             public void onShake() {
                 //randomEvent2();
+                System.out.println("shake works");
             }
         });
         //populate();

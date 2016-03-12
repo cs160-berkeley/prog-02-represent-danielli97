@@ -50,13 +50,13 @@ public class PhoneToWatchService extends Service {
         final String send;
         final String value;
         Bundle extras = intent.getExtras();
-        if(extras.getString("zip") != null){
-            send = "/zip";
-            value = extras.getString("zip");
-        } else {
-            send = "/location";
-            value = extras.getString("location");
-        }
+            if(extras.getString("zip") != null){
+                send = "/zip";
+                value = extras.getString("zip");
+            } else {
+                send = "/location";
+                value = extras.getString("location");
+            }
 
 
         // Send the message with the cat name
