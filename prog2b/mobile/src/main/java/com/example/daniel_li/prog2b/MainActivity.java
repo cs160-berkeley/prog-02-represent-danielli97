@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (networkInfo != null && networkInfo.isConnected()) {
                 System.out.println(value);
                 String urlzip = "https://raw.githubusercontent.com/cs160-sp16/voting-data/master/election-county-2012.json";
-                System.out.println(urlzip);
+                //System.out.println(urlzip);
                 //builds my string
                 try {
                     taskResult2 = new DownloadWebpageTask().execute(urlzip).get();
@@ -269,6 +269,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 }
             }
+
+            JSONObject location = getLocationInfo(lat, lng);
+
+
+
             Intent sendIntent = new Intent(this, PhoneToWatchService.class);
             sendIntent.putExtra("location", ziplocated);
             String lat2 = String.valueOf(lat);
@@ -285,6 +290,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             startActivity(intent);
         }
     }
+
+
+    public JSONObject getLocationInfo( double lat, double lng) {
+
+        HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=false");
+        HttpClient client = new DefaultHttpClient();
+        HttpResponse response;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try {
+            response = client.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            InputStream stream = entity.getContent();
+            int b;
+            while ((b = stream.read()) != -1) {
+                stringBuilder.append((char) b);
+            }
+        } catch (ClientProtocolException e) {
+        } catch (IOException e) {
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = new JSONObject(stringBuilder.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+
+
 
     public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         @Override

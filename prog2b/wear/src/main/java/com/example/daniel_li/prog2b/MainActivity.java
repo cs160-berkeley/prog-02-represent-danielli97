@@ -116,7 +116,11 @@ public class MainActivity extends Activity implements WearableListView.ClickList
         WatchToPhoneService.sendMessage("/test", "Good job!", this);
         Intent intent = new Intent(this, DetailedView.class );
         intent.putExtra("name", sen1);
-        intent.putExtra("party", p1);
+        intent.putExtra("party", party);
+        System.out.println("intent info");
+        System.out.println(intent.getExtras().getString("name"));
+        System.out.println(intent.getExtras().getString("party"));
+
         startActivity(intent);
     }
     public void onTopEmptyRegionClick() {

@@ -73,16 +73,20 @@ public class simple2activity extends AppCompatActivity {
 
 
         //set detailed view
-        ImageView iv1 = (ImageView) findViewById(R.id.d);
-        Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
-                bioguide + ".jpg").into(iv1);
-        s1 = intent.getStringExtra("name");
-        p1 = "Party: " + intent.getStringExtra("party");
-        e1 = "Email: " + intent.getStringExtra("email");
-        w1 = "Website: " + intent.getStringExtra("website");
-        t1 = "Tweet: " + intent.getStringExtra("tweet");
-        end1 = "End Date: " + intent.getStringExtra("end");
-        detailPopulate();
+        if (!intent.getStringExtra("null").matches("null")) {
+            ImageView iv1 = (ImageView) findViewById(R.id.d);
+            Picasso.with(getApplicationContext()).load("https://theunitedstates.io/images/congress/225x275/" +
+                    bioguide + ".jpg").into(iv1);
+            s1 = intent.getStringExtra("name");
+            p1 = "Party: " + intent.getStringExtra("party");
+            e1 = "Email: " + intent.getStringExtra("email");
+            w1 = "Website: " + intent.getStringExtra("website");
+            t1 = "Tweet: " + intent.getStringExtra("tweet");
+            end1 = "End Date: " + intent.getStringExtra("end");
+            detailPopulate();
+        } else {
+
+        }
     }
 
     public void detailPopulate() {

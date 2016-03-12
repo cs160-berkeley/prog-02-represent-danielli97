@@ -10,6 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight=".5"
         android:textColor="@color/dark_blue"
+        android:id="@+id/input"
         android:text="Dianne Fienstein - Democrat, CA"/>
 
 </LinearLayout>

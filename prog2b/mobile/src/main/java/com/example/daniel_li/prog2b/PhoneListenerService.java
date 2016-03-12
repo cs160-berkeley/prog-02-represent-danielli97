@@ -26,6 +26,7 @@ public class PhoneListenerService extends WearableListenerService {
         Log.d("Potato", "in PhoneListenerService, got: " + messageEvent.getPath());
         Intent sendIntent = new Intent(this, simple2activity.class);
         sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        sendIntent.putExtra("null", "null");
         startActivity(sendIntent);
         if( messageEvent.getPath().equalsIgnoreCase("/test") ) {
 
