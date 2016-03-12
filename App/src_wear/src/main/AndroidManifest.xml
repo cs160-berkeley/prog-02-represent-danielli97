@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.daniel_li.prog2b" >
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault" >
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCWOcL_5ECvhn98YzdAUeuwe6kGoZVjaJM"/>
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+
+        <activity
+            android:name=".TempActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LocationActivity"
+            android:label="Location View">
+        </activity>
+        <activity
+            android:name=".LocationActivity2"
+            android:label="Location View2">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="Location View">
+        </activity>
+        <activity
+            android:name=".DetailedView"
+            android:label="Detailed View">
+        </activity>
+        <service android:name=".WatchToPhoneService" />
+        <!-- Listeners are special services that need to be declared like below, as BIND_LISTENER -->
+        <service android:name=".WatchListenerService"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

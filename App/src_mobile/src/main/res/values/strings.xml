@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">prog2b</string>
+    <string name="title_activity_simpleview">simpleview</string>
+    <string name="title_activity_simple2activity">simple2activity</string>
+    <string name="google_app_id">your app id</string>
+
+</resources>
